@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMover : MonoBehaviour
 {
-    float m_Speed = 4f;
+    float m_Speed = 2f;
     Vector2 posChange;
 
     

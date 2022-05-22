@@ -18,6 +18,9 @@ Library\Bee\artifacts\movedfrom\Unity.InternalAPIEditorBridge.001.ref.dll_116354
 Library\Bee\artifacts\movedfrom\Unity.InternalAPIEngineBridge.001.ref.dll_10661161922611768434.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.Mathematics.Editor.ref.dll_17054068523687131140.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.Mathematics.ref.dll_1132178310533981821.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.Recorder.Base.ref.dll_6183468655217899368.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.Recorder.Editor.ref.dll_11056029822921309508.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.Recorder.ref.dll_12486152265901378877.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.Rider.Editor.ref.dll_9429735389166809616.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.TextMeshPro.Editor.ref.dll_7505652575554413639.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.TextMeshPro.ref.dll_12351856790969586186.movedfrom

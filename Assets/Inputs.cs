@@ -17,6 +17,7 @@ public class Inputs : MonoBehaviour
         inputActions.Player.Move.performed += MovementPerformed;
         inputActions.Player.Move.canceled += MovementPerformed;
         inputActions.Player.Interact.performed += InterationPerformed;
+        inputActions.Player.Interact.canceled += InterationCanceled;
     }
 
 
@@ -28,5 +29,10 @@ public class Inputs : MonoBehaviour
     public void InterationPerformed(InputAction.CallbackContext context)
     {
         interaction.AttemtInteract();
+    }
+
+    public void InterationCanceled(InputAction.CallbackContext context)
+    {
+        interaction.AttemtCancel();
     }
 }

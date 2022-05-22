@@ -1,58 +1,92 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Resident : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    [SerializeField] Qmark qmark;
     
-    Vector2 moveDiretion = Vector2.zero;
+    Vector2 moveDirection = Vector2.zero;
     float moveSpeed;
-    float walkSpeed = 3f;
+    float walkSpeed = 2f;
     float runSpeed = 10f;
 
-    bool isPanicking = false;
+    HauntableObject investigationTarget;
+
+    enum State { Normal, Investigating, Nervous, Panicked}
+    State currentState = State.Normal;
+
+
+    LayerMask hauntableObjectLayer;
+
 
     private void Start()
     {
         moveSpeed = walkSpeed;
-        moveDiretion = Vector2.right;
+        moveDirection = Vector2.right;
+        hauntableObjectLayer = LayerMask.GetMask(LayerMask.LayerToName(10));
     }
 
 
     private void Update()
     {
-        if (moveDiretion != Vector2.zero)
+        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+        ChangeDirection();
+        if(MovingNormally())
         {
-            transform.Translate(moveDiretion * moveSpeed * Time.deltaTime);
-            ChangeDirection();
+            Looking();
+        }
+        else if (currentState == State.Investigating)
+        {
+            CheckIfAtInvestigationTarget();
         }
     }
+
+    private void Looking()
+    {
+
+        HauntableObject haunt = null;
+        Vector2 dir = new Vector2(transform.localScale.x, 0);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 10f, hauntableObjectLayer);
+        Debug.DrawLine(transform.position, hit.point, Color.green);
+        if (hit)
+        {
+            haunt = hit.collider.GetComponent<HauntableObject>();
+        }
+        if (haunt != null)
+        {
+            if (haunt.IsHaunted)
+            {
+                Investigate(haunt);
+            }
+        }
+    }
+
+
 
     public void StartRunning()
     {
         moveSpeed = runSpeed;
-        moveDiretion = FindCenter();
+        moveDirection = FindCenter();
     }
 
     public void ChangeDirection()
     {
-        if (moveDiretion.x > 0)
+        if (moveDirection.x > 0)
         {
             transform.localScale = new Vector2(1, 1);
         }
-        else if (moveDiretion.x < 0)
+        else if (moveDirection.x < 0)
         {
             transform.localScale = new Vector2(-1, 1);
         }
-
-        //transform.localScale = new Vector2(transform.localScale.x * -1, 1);
-        //StartRunning();
     }
 
     public void StartPanic()
     {
-        isPanicking = true;
+        currentState = State.Panicked;
         moveSpeed = 0;
         animator.SetTrigger("panic");
     }
@@ -71,7 +105,7 @@ public class Resident : MonoBehaviour
 
     public void InputNewDirection(Vector2 newDirection)
     {
-        moveDiretion = newDirection;
+        moveDirection = newDirection;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -79,10 +113,77 @@ public class Resident : MonoBehaviour
         Waypoint waypoint = collision.GetComponent<Waypoint>();
         if(waypoint != null)
         {
-            if (!isPanicking || isPanicking && !waypoint.IgnoreIfPanicked)
+            if (MovingNormally() || !MovingNormally() && !waypoint.NormalPath)
             {
-                moveDiretion = waypoint.Direction;
+                moveDirection = waypoint.Direction;
             }
         }
+    }
+
+    private bool MovingNormally()
+    {
+        return currentState == State.Normal | currentState == State.Nervous;
+    }
+
+    public void PauseMovement()
+    {
+        moveSpeed = 0;
+    }
+
+    public void ResumeMovement()
+    {
+        if (currentState == State.Panicked)
+        {
+            moveSpeed = runSpeed;
+        }
+        else
+        {
+            moveSpeed = walkSpeed;
+        }
+    }
+
+    private void Investigate(HauntableObject haunt)
+    {
+        if (currentState == State.Nervous || currentState == State.Panicked)
+        {
+            StartPanic();
+        }
+        else
+        {
+            currentState = State.Investigating;
+            qmark.gameObject.SetActive(true);
+            investigationTarget = haunt;
+            currentState = State.Investigating;
+            moveDirection = new Vector2(transform.localScale.x, 0);
+            StartCoroutine(WaitToResumeMovement());
+        }
+    }
+
+    private void CheckIfAtInvestigationTarget()
+    {
+        if(Vector2.Distance(transform.position, new Vector2(investigationTarget.transform.position.x, transform.position.y)) < 0.1f)
+        {
+            PauseMovement();
+            investigationTarget.ResetHaunting();
+            investigationTarget = null;
+            currentState = State.Nervous;
+            StartCoroutine(WaitToResumeMovement());
+            moveDirection = Vector2.right;
+            qmark.StartCountdown();
+        }
+    }
+
+    
+
+    private IEnumerator WaitToResumeMovement()
+    {
+        PauseMovement();
+        yield return new WaitForSeconds(1f);
+        ResumeMovement();
+    }
+
+    public void ReturnToNormalState()
+    {
+        currentState = State.Normal;
     }
 }

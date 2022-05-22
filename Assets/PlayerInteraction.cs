@@ -4,23 +4,31 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField]bool canInteract = false;
+    //[SerializeField]bool canInteract = false;
+    HauntableObject interactable;
 
     public void AttemtInteract()
     {
-        if (canInteract)
+        if (interactable != null && !interactable.IsHaunted)
         {
-            FindObjectOfType<Resident>().StartPanic();
+            interactable.Aura.StartAuraAnimation();
+        }
+    }
+
+    public void AttemtCancel()
+    {
+        if(interactable != null && !interactable.IsHaunted)
+        {
+            interactable.Aura.CancelAnimation();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("hi");
 
         if (collision.gameObject.tag == "Object")
         {
-            canInteract = true;
+            interactable = collision.GetComponent<HauntableObject>();
         }
     }
 
@@ -28,7 +36,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (collision.gameObject.tag == "Object")
         {
-            canInteract = false;
+            interactable = null;
         }
     }
 }
