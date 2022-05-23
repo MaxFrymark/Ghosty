@@ -55,7 +55,10 @@ public class HauntableObject : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 10f, person | door);
         if (hit)
         {
-            target = hit.collider.GetComponent<Resident>();
+            if (hit.collider.GetComponent<Resident>() != null)
+            {
+                target = hit.collider.GetComponent<Resident>();
+            }
         }
 
         if(target != null)

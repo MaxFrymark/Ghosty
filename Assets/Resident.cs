@@ -7,7 +7,7 @@ public class Resident : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] Qmark qmark;
-    
+
     Vector2 moveDirection = Vector2.zero;
     float moveSpeed;
     float walkSpeed = 2f;
@@ -15,18 +15,24 @@ public class Resident : MonoBehaviour
 
     HauntableObject investigationTarget;
 
-    enum State { Normal, Investigating, Nervous, Panicked}
-    State currentState = State.Normal;
+    enum State { Normal, Investigating, Nervous, Panicked }
+    [SerializeField] State currentState = State.Normal;
 
 
     LayerMask hauntableObjectLayer;
+    LayerMask doorLayer;
+
+    ResidentTracker tracker;
 
 
     private void Start()
     {
+        tracker = FindObjectOfType<ResidentTracker>();
+        tracker.AddResident(this);
         moveSpeed = walkSpeed;
         moveDirection = Vector2.right;
         hauntableObjectLayer = LayerMask.GetMask(LayerMask.LayerToName(10));
+        doorLayer = LayerMask.GetMask(LayerMask.LayerToName(13));
     }
 
 
@@ -36,6 +42,7 @@ public class Resident : MonoBehaviour
         ChangeDirection();
         if(MovingNormally())
         {
+            //Debug.Log("looking");
             Looking();
         }
         else if (currentState == State.Investigating)
@@ -46,11 +53,9 @@ public class Resident : MonoBehaviour
 
     private void Looking()
     {
-
         HauntableObject haunt = null;
         Vector2 dir = new Vector2(transform.localScale.x, 0);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 10f, hauntableObjectLayer);
-        Debug.DrawLine(transform.position, hit.point, Color.green);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 10f, hauntableObjectLayer | doorLayer);
         if (hit)
         {
             haunt = hit.collider.GetComponent<HauntableObject>();
@@ -87,7 +92,8 @@ public class Resident : MonoBehaviour
     public void StartPanic()
     {
         currentState = State.Panicked;
-        moveSpeed = 0;
+        tracker.RemoveResident(this);
+        PauseMovement();
         animator.SetTrigger("panic");
     }
 
@@ -122,7 +128,23 @@ public class Resident : MonoBehaviour
 
     private bool MovingNormally()
     {
-        return currentState == State.Normal | currentState == State.Nervous;
+        bool movingNormal = currentState == State.Normal | currentState == State.Nervous;
+        //Debug.Log(movingNormal);
+        return movingNormal;
+        /*if(currentState == State.Normal)
+        {
+            return true;
+        }
+
+        else if(currentState == State.Nervous)
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }*/
     }
 
     public void PauseMovement()
@@ -144,11 +166,12 @@ public class Resident : MonoBehaviour
 
     private void Investigate(HauntableObject haunt)
     {
-        if (currentState == State.Nervous || currentState == State.Panicked)
+        if (currentState == State.Nervous)
         {
+            qmark.StopCountDown();
             StartPanic();
         }
-        else
+        else if(currentState == State.Normal)
         {
             currentState = State.Investigating;
             qmark.gameObject.SetActive(true);

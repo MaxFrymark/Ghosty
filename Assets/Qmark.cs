@@ -15,6 +15,12 @@ public class Qmark : MonoBehaviour
 
     public void StartCountdown()
     {
-        animator.SetTrigger("startDecay");
+        animator.SetBool("isDecaying", true);
+    }
+
+    public void StopCountDown()
+    {
+        animator.SetBool("isDecaying", false);
+        gameObject.SetActive(false);
     }
 }

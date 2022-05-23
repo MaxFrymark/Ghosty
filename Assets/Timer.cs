@@ -7,6 +7,7 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] Text timeDisplay;
     [SerializeField] int startingTime;
+    [SerializeField] MenuScreen menu; 
     int currentTime;
     
     void Start()
@@ -30,7 +31,13 @@ public class Timer : MonoBehaviour
             minutes++;
             seconds -= 60;
         }
-        if (seconds >= 10)
+
+        if (currentTime <= 0)
+        {
+            EndLevel();
+            return "0:00";
+        }
+        else if (seconds >= 10)
         {
             return minutes + ":" + seconds;
         }
@@ -38,5 +45,12 @@ public class Timer : MonoBehaviour
         {
             return minutes + ":0" + seconds;
         }
+        
+    }
+
+    private void EndLevel()
+    {
+        menu.gameObject.SetActive(true);
+        menu.SelectMenu(MenuScreen.Menus.LevelLost);
     }
 }

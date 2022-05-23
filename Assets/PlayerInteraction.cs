@@ -17,6 +17,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void AttemtCancel()
     {
+        
         if(interactable != null && !interactable.IsHaunted)
         {
             interactable.Aura.CancelAnimation();
@@ -25,7 +26,6 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.gameObject.tag == "Object")
         {
             interactable = collision.GetComponent<HauntableObject>();
