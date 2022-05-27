@@ -5,11 +5,13 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource audio;
     Resident personPassingThroughDoor;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         animator.SetBool("isOpen", true);
+        audio.Play();
         personPassingThroughDoor = collision.GetComponent<Resident>();
         personPassingThroughDoor.PauseMovement();
     }

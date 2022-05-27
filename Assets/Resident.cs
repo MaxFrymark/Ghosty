@@ -5,13 +5,17 @@ using System;
 
 public class Resident : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    [SerializeField] protected Animator animator;
     [SerializeField] Qmark qmark;
 
-    Vector2 moveDirection = Vector2.zero;
-    float moveSpeed;
-    float walkSpeed = 2f;
-    float runSpeed = 10f;
+    [SerializeField] protected Waypoint currentWayponint;
+    [SerializeField] protected Waypoint nextWaypoint;
+    [SerializeField] Waypoint escapeWaypoint;
+    [SerializeField] protected Vector2 destination;
+
+    protected float moveSpeed;
+    [SerializeField] protected float walkSpeed = 2f;
+    [SerializeField] float runSpeed = 10f;
 
     HauntableObject investigationTarget;
 
@@ -24,13 +28,16 @@ public class Resident : MonoBehaviour
 
     ResidentTracker tracker;
 
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip[] sounds;
+
 
     private void Start()
     {
+        destination = currentWayponint.transform.position;
         tracker = FindObjectOfType<ResidentTracker>();
         tracker.AddResident(this);
         moveSpeed = walkSpeed;
-        moveDirection = Vector2.right;
         hauntableObjectLayer = LayerMask.GetMask(LayerMask.LayerToName(10));
         doorLayer = LayerMask.GetMask(LayerMask.LayerToName(13));
     }
@@ -38,17 +45,21 @@ public class Resident : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-        ChangeDirection();
+        transform.position = Vector2.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+        if(currentState != State.Investigating)
+        {
+            CheckIfAtDestination();
+        }
+        ChangeFacing();
         if(MovingNormally())
         {
-            //Debug.Log("looking");
             Looking();
         }
         else if (currentState == State.Investigating)
         {
             CheckIfAtInvestigationTarget();
         }
+        WalkAnimation();
     }
 
     private void Looking()
@@ -69,21 +80,35 @@ public class Resident : MonoBehaviour
         }
     }
 
+    private void WalkAnimation()
+    {
+        animator.SetBool("isWalking", moveSpeed != 0);
+    }
+
+    protected void CheckIfAtDestination()
+    {
+        if((Vector2)transform.position == destination)
+        {
+            currentWayponint = nextWaypoint;
+            destination = currentWayponint.transform.position;
+        }
+    }
+
 
 
     public void StartRunning()
     {
         moveSpeed = runSpeed;
-        moveDirection = FindCenter();
+        destination = escapeWaypoint.transform.position;
     }
 
-    public void ChangeDirection()
+    public void ChangeFacing()
     {
-        if (moveDirection.x > 0)
+        if (destination.x >= transform.position.x)
         {
             transform.localScale = new Vector2(1, 1);
         }
-        else if (moveDirection.x < 0)
+        else 
         {
             transform.localScale = new Vector2(-1, 1);
         }
@@ -92,12 +117,15 @@ public class Resident : MonoBehaviour
     public void StartPanic()
     {
         currentState = State.Panicked;
+        audioSource.volume = 1;
+        audioSource.clip = sounds[1];
+        audioSource.Play();
         tracker.RemoveResident(this);
         PauseMovement();
         animator.SetTrigger("panic");
     }
 
-    private Vector2 FindCenter()
+    /*private Vector2 FindCenter()
     {
         if(transform.position.x < 0)
         {
@@ -107,44 +135,25 @@ public class Resident : MonoBehaviour
         {
             return Vector2.left;
         }
-    }
+    }*/
 
-    public void InputNewDirection(Vector2 newDirection)
-    {
-        moveDirection = newDirection;
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Waypoint waypoint = collision.GetComponent<Waypoint>();
-        if(waypoint != null)
+        if(waypoint != null && !waypoint.AgentOnly)
         {
             if (MovingNormally() || !MovingNormally() && !waypoint.NormalPath)
             {
-                moveDirection = waypoint.Direction;
+                nextWaypoint = waypoint.NextWaypoint;
             }
         }
     }
 
     private bool MovingNormally()
     {
-        bool movingNormal = currentState == State.Normal | currentState == State.Nervous;
-        //Debug.Log(movingNormal);
-        return movingNormal;
-        /*if(currentState == State.Normal)
-        {
-            return true;
-        }
-
-        else if(currentState == State.Nervous)
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }*/
+        return currentState == State.Normal | currentState == State.Nervous;
     }
 
     public void PauseMovement()
@@ -152,7 +161,7 @@ public class Resident : MonoBehaviour
         moveSpeed = 0;
     }
 
-    public void ResumeMovement()
+    public virtual void ResumeMovement()
     {
         if (currentState == State.Panicked)
         {
@@ -173,30 +182,47 @@ public class Resident : MonoBehaviour
         }
         else if(currentState == State.Normal)
         {
+            audioSource.clip = sounds[0];
+            audioSource.Play();
             currentState = State.Investigating;
             qmark.gameObject.SetActive(true);
             investigationTarget = haunt;
             currentState = State.Investigating;
-            moveDirection = new Vector2(transform.localScale.x, 0);
+            destination = new Vector2(investigationTarget.transform.position.x, transform.position.y);
             StartCoroutine(WaitToResumeMovement());
         }
     }
 
     private void CheckIfAtInvestigationTarget()
     {
-        if(Vector2.Distance(transform.position, new Vector2(investigationTarget.transform.position.x, transform.position.y)) < 0.1f)
+        if((Vector2)transform.position == destination)
         {
             PauseMovement();
             investigationTarget.ResetHaunting();
             investigationTarget = null;
             currentState = State.Nervous;
             StartCoroutine(WaitToResumeMovement());
-            moveDirection = Vector2.right;
+            destination = currentWayponint.transform.position;
             qmark.StartCountdown();
+            StartCoroutine(FadeOut());
         }
     }
 
-    
+    private IEnumerator FadeOut()
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / 0.5f;
+
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume;
+    }
+
 
     private IEnumerator WaitToResumeMovement()
     {

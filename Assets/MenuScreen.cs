@@ -17,7 +17,7 @@ public class MenuScreen : MonoBehaviour
     public enum Menus { MainMenu, LevelWin, LevelLost, Tutorial, StartingMenu, EndScreen, None }
     [SerializeField] private Menus activeMenu;
 
-    
+    bool levelComplete = false;
 
     private void OnEnable()
     {
@@ -43,6 +43,7 @@ public class MenuScreen : MonoBehaviour
                 levelLostScreen.SetActive(true);
                 break;
             case Menus.LevelWin:
+                levelComplete = true;
                 levelWonScreen.SetActive(true);
                 break;
                 
@@ -73,6 +74,7 @@ public class MenuScreen : MonoBehaviour
         }
     }
 
+    
     public void EscapePressed()
     {
         if(activeMenu == Menus.StartingMenu || activeMenu == Menus.EndScreen)

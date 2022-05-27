@@ -72,5 +72,10 @@ PrefabInstance:
       propertyPath: direction.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6113756642828146965, guid: 4fb4772f9d4769745a60644664af7eca,
+        type: 3}
+      propertyPath: waypointType
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fb4772f9d4769745a60644664af7eca, type: 3}

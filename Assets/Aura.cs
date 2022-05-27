@@ -6,17 +6,21 @@ public class Aura : MonoBehaviour
 {
     [SerializeField] HauntableObject haunt;
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource audio;
 
     public void StartAuraAnimation()
     {
         animator.SetBool("isHaunting", true);
+        audio.Play();
     }
 
     public void CancelAnimation()
     {
         if (animator.GetBool("isHaunting"))
         {
+            Debug.Log("hi");
             animator.SetBool("isHaunting", false);
+            audio.Stop();
         }
     }
 

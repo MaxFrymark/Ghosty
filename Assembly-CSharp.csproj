@@ -58,15 +58,17 @@
     <Compile Include="Assets\Door.cs" />
     <Compile Include="Assets\Resident.cs" />
     <Compile Include="Assets\Inputs.cs" />
+    <Compile Include="Assets\ResidentTracker.cs" />
+    <Compile Include="Assets\MenuScreen.cs" />
+    <Compile Include="Assets\RoomList.cs" />
     <Compile Include="Assets\PlayerInteraction.cs" />
+    <Compile Include="Assets\ParanormalInvestigator.cs" />
     <Compile Include="Assets\Waypoint.cs" />
     <Compile Include="Assets\Qmark.cs" />
+    <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\PlayerMover.cs" />
     <Compile Include="Assets\Timer.cs" />
     <Compile Include="Assets\Aura.cs" />
-    <Compile Include="Assets\MenuScreen.cs" />
-    <Compile Include="Assets\SceneLoader.cs" />
-    <Compile Include="Assets\ResidentTracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -9,11 +9,13 @@ public class Timer : MonoBehaviour
     [SerializeField] int startingTime;
     [SerializeField] MenuScreen menu; 
     int currentTime;
+    ResidentTracker residentTracker;
     
     void Start()
     {
         currentTime = startingTime;
         timeDisplay.text = startingTime.ToString();
+        residentTracker = FindObjectOfType<ResidentTracker>();
     }
 
     private void Update()
@@ -50,7 +52,10 @@ public class Timer : MonoBehaviour
 
     private void EndLevel()
     {
-        menu.gameObject.SetActive(true);
-        menu.SelectMenu(MenuScreen.Menus.LevelLost);
+        if (!residentTracker.LevelComplete)
+        {
+            menu.gameObject.SetActive(true);
+            menu.SelectMenu(MenuScreen.Menus.LevelLost);
+        }
     }
 }

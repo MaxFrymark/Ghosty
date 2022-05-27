@@ -8,6 +8,9 @@ public class ResidentTracker : MonoBehaviour
     
     List<Resident> residents = new List<Resident>();
 
+    bool levelComplete = false;
+    public bool LevelComplete { get { return levelComplete; } }
+
     public void AddResident(Resident resident)
     {
         residents.Add(resident);
@@ -18,8 +21,15 @@ public class ResidentTracker : MonoBehaviour
         residents.Remove(resident);
         if(residents.Count == 0)
         {
-            menu.gameObject.SetActive(true);
-            menu.SelectMenu(MenuScreen.Menus.LevelWin);
+            levelComplete = true;
+            StartCoroutine(EndingLevel());
         }
+    }
+
+    private IEnumerator EndingLevel()
+    {
+        yield return new WaitForSeconds(2);
+        menu.gameObject.SetActive(true);
+        menu.SelectMenu(MenuScreen.Menus.LevelWin);
     }
 }
