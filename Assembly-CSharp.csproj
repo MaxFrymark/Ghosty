@@ -53,22 +53,24 @@
     <UnityVersion>2021.1.4f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Player Input Actions.cs" />
-    <Compile Include="Assets\HauntableObject.cs" />
-    <Compile Include="Assets\Door.cs" />
-    <Compile Include="Assets\Resident.cs" />
-    <Compile Include="Assets\Inputs.cs" />
-    <Compile Include="Assets\ResidentTracker.cs" />
-    <Compile Include="Assets\MenuScreen.cs" />
-    <Compile Include="Assets\RoomList.cs" />
-    <Compile Include="Assets\PlayerInteraction.cs" />
-    <Compile Include="Assets\ParanormalInvestigator.cs" />
-    <Compile Include="Assets\Waypoint.cs" />
-    <Compile Include="Assets\Qmark.cs" />
-    <Compile Include="Assets\SceneLoader.cs" />
-    <Compile Include="Assets\PlayerMover.cs" />
-    <Compile Include="Assets\Timer.cs" />
-    <Compile Include="Assets\Aura.cs" />
+    <Compile Include="Assets\Scripts\Player Input Actions.cs" />
+    <Compile Include="Assets\Scripts\HauntableObject.cs" />
+    <Compile Include="Assets\Scripts\Door.cs" />
+    <Compile Include="Assets\Scripts\Resident.cs" />
+    <Compile Include="Assets\Scripts\Inputs.cs" />
+    <Compile Include="Assets\Scripts\ResidentTracker.cs" />
+    <Compile Include="Assets\Scripts\MenuScreen.cs" />
+    <Compile Include="Assets\Scripts\RoomList.cs" />
+    <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
+    <Compile Include="Assets\Cat.cs" />
+    <Compile Include="Assets\Scripts\ParanormalInvestigator.cs" />
+    <Compile Include="Assets\Scripts\Waypoint.cs" />
+    <Compile Include="Assets\Scripts\Qmark.cs" />
+    <Compile Include="Assets\Scripts\SceneLoader.cs" />
+    <Compile Include="Assets\GhostTrap.cs" />
+    <Compile Include="Assets\Scripts\PlayerMover.cs" />
+    <Compile Include="Assets\Scripts\Timer.cs" />
+    <Compile Include="Assets\Scripts\Aura.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

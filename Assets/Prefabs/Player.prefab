@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7667726775045050795}
   - component: {fileID: 1770565482}
   - component: {fileID: 426639573165636886}
+  - component: {fileID: 4423241399208363607}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -99,6 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cdaef8a15927f1488cd99633eea4dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interaction: {fileID: 1770565482}
+  animator: {fileID: 0}
+  maxY: -5.3
 --- !u!58 &7667726775045050795
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -148,3 +152,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &4423241399208363607
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8542679694599385470}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e4513b9e325f90945a1726cbf94d5b2a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
