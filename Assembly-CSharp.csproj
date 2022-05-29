@@ -69,8 +69,10 @@
     <Compile Include="Assets\Scripts\SceneLoader.cs" />
     <Compile Include="Assets\GhostTrap.cs" />
     <Compile Include="Assets\Scripts\PlayerMover.cs" />
+    <Compile Include="Assets\Tutorial.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\Aura.cs" />
+    <Compile Include="Assets\Dog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

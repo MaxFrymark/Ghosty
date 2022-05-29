@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interaction: {fileID: 1770565482}
-  animator: {fileID: 0}
-  maxY: -5.3
+  animator: {fileID: 4423241399208363607}
+  maxY: -3.3
 --- !u!58 &7667726775045050795
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2348a5a368d0cc446932fa2776aa6918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canInteract: 1
 --- !u!50 &426639573165636886
 Rigidbody2D:
   serializedVersion: 4

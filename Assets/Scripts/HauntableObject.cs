@@ -10,9 +10,14 @@ public class HauntableObject : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Aura aura;
     public Aura Aura { get { return aura; } }
+    PlayerInteraction player = null;
 
     LayerMask person;
     LayerMask door;
+
+    bool hauntingInProcess = false;
+    bool hauntingLocked = false;
+    public bool HauntingInProcess { get { return hauntingInProcess; } set { hauntingInProcess = value; } }
 
     private void Update()
     {
@@ -22,9 +27,13 @@ public class HauntableObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<PlayerInteraction>() != null)
+        if (!hauntingLocked)
         {
-            aura.gameObject.SetActive(true);
+            if (collision.GetComponent<PlayerInteraction>() != null)
+            {
+                player = collision.GetComponent<PlayerInteraction>();
+                aura.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -32,20 +41,22 @@ public class HauntableObject : MonoBehaviour
     {
         if (collision.GetComponent<PlayerInteraction>() != null)
         {
+            player = null;
             aura.gameObject.SetActive(false);
         }
     }
 
     public void StartHauntingAnimation()
     {
+        hauntingInProcess = false;
         animator.SetBool("isHaunted", true);
+        HauntObject();
     }
 
-    public void HauntObject()
+    private void HauntObject()
     {
         if (!isHaunted)
         {
-            Debug.Log("hi");
             isHaunted = true;
             CheckForLOS(Vector2.right);
             CheckForLOS(Vector2.left);
@@ -100,9 +111,39 @@ public class HauntableObject : MonoBehaviour
         else return false;
     }
 
+    public void BeginHauntingProcess()
+    {
+        aura.StartAuraAnimation();
+        hauntingInProcess = true;
+    }
+
+    public void StopHauntingProcess()
+    {
+        aura.CancelAnimation();
+        hauntingInProcess = false;
+    }
+
     public void ResetHaunting()
     {
         animator.SetBool("isHaunted", false);
         isHaunted = false;
+    }
+
+    public void LockHaunting()
+    {
+        hauntingLocked = true;
+        StopHauntingProcess();
+        aura.gameObject.SetActive(false);
+        StartCoroutine(LockCountdown());
+    }
+
+    private IEnumerator LockCountdown()
+    {
+        yield return new WaitForSeconds(3);
+        hauntingLocked = false;
+        if(player != null)
+        {
+            aura.gameObject.SetActive(true);
+        }
     }
 }

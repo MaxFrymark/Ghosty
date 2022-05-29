@@ -30,19 +30,24 @@ public class ParanormalInvestigator : Resident
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Waypoint waypoint = collision.GetComponent<Waypoint>();
-        if(waypoint != null && !waypoint.NormalPath)
+        if(waypoint != null)
         {
-            if(target.transform.position.y > waypoint.transform.position.y || target.transform.position == waypoint.transform.position)
+            Debug.Log("hi");
+            if (!waypoint.NormalPath)
             {
-                nextWaypoint = waypoint.PreviousWaypoint;
-            }
-            else if(target.transform.position.y < waypoint.transform.position.y)
-            {
-                nextWaypoint = waypoint.NextWaypoint;
-            }
-            else
-            {
-                nextWaypoint = target;
+                Debug.Log("meow");
+                if (target.transform.position.y > waypoint.transform.position.y || target.transform.position == waypoint.transform.position)
+                {
+                    nextWaypoint = waypoint.PreviousWaypoint;
+                }
+                else if (target.transform.position.y < waypoint.transform.position.y)
+                {
+                    nextWaypoint = waypoint.NextWaypoint;
+                }
+                else
+                {
+                    nextWaypoint = target;
+                }
             }
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    bool canInteract = true;
+    [SerializeField] bool canInteract = true;
     public bool CanInteract { get { return canInteract; } set { canInteract = value; } }
     HauntableObject interactable;
 
@@ -14,7 +14,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (interactable != null && !interactable.IsHaunted)
             {
-                interactable.Aura.StartAuraAnimation();
+                interactable.BeginHauntingProcess();
             }
         }
     }
@@ -25,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (interactable != null && !interactable.IsHaunted)
             {
-                interactable.Aura.CancelAnimation();
+                interactable.StopHauntingProcess();
             }
         }
     }

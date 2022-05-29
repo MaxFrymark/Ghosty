@@ -348,12 +348,12 @@ PrefabInstance:
         type: 3}
       propertyPath: nextWaypoint
       value: 
-      objectReference: {fileID: 6097113465188968421}
+      objectReference: {fileID: 0}
     - target: {fileID: 6113756642828146965, guid: 4fb4772f9d4769745a60644664af7eca,
         type: 3}
       propertyPath: previousWaypoint
       value: 
-      objectReference: {fileID: 6097113465188968421}
+      objectReference: {fileID: 0}
     - target: {fileID: 6148898139606658116, guid: 4fb4772f9d4769745a60644664af7eca,
         type: 3}
       propertyPath: m_IsTrigger

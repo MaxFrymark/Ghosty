@@ -131,6 +131,7 @@ MonoBehaviour:
   sounds: []
   hasCat: 0
   target: {fileID: 0}
+  aura: {fileID: 658504518767785768, guid: 2c7bd7de72d5115438165c74b0b296a0, type: 3}
 --- !u!50 &4695766581735454902
 Rigidbody2D:
   serializedVersion: 4

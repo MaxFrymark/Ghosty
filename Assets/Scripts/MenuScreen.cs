@@ -12,6 +12,7 @@ public class MenuScreen : MonoBehaviour
 
     [SerializeField] GameObject levelLostScreen;
     [SerializeField] GameObject levelWonScreen;
+    [SerializeField] Tutorial tutorialScreen;
 
 
     public enum Menus { MainMenu, LevelWin, LevelLost, Tutorial, StartingMenu, EndScreen, None }
@@ -71,6 +72,9 @@ public class MenuScreen : MonoBehaviour
             case Menus.EndScreen:
                 loader.RestartGame();
                 break;
+            case Menus.Tutorial:
+                tutorialScreen.NextPage();
+                break;
         }
     }
 
@@ -80,6 +84,13 @@ public class MenuScreen : MonoBehaviour
         if(activeMenu == Menus.StartingMenu || activeMenu == Menus.EndScreen)
         {
             Application.Quit();
+        }
+
+        else if(activeMenu == Menus.Tutorial)
+        {
+            tutorialScreen.gameObject.SetActive(false);
+            activeMenu = Menus.None;
+            gameObject.SetActive(false);
         }
 
         else

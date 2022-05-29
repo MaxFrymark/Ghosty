@@ -7,22 +7,22 @@ public class Cat : MonoBehaviour
     [SerializeField] protected Waypoint currentWayponint;
     [SerializeField] protected Waypoint nextWaypoint;
     [SerializeField] protected Vector2 destination;
-    [SerializeField] float speed;
+    [SerializeField] protected float speed;
 
 
-    private void Start()
+    protected virtual void Start()
     {
         destination = SelectDestiantion();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, destination, speed * Time.deltaTime);
         ChangeFacing();
         CheckIfAtDestination();
     }
 
-    private Vector2 SelectDestiantion()
+    protected Vector2 SelectDestiantion()
     {
         return new Vector2(currentWayponint.transform.position.x, transform.position.y);
     }
@@ -39,7 +39,7 @@ public class Cat : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         Waypoint waypoint = collision.GetComponent<Waypoint>();
         if(waypoint != null)
@@ -51,7 +51,7 @@ public class Cat : MonoBehaviour
         }
     }
 
-    protected void CheckIfAtDestination()
+    protected virtual void CheckIfAtDestination()
     {
         if ((Vector2)transform.position == destination)
         {

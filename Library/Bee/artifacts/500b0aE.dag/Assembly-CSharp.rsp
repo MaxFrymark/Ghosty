@@ -332,6 +332,7 @@
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Cat.cs"
+"Assets/Dog.cs"
 "Assets/GhostTrap.cs"
 "Assets/Scripts/Aura.cs"
 "Assets/Scripts/Door.cs"
@@ -349,6 +350,7 @@
 "Assets/Scripts/SceneLoader.cs"
 "Assets/Scripts/Timer.cs"
 "Assets/Scripts/Waypoint.cs"
+"Assets/Tutorial.cs"
 -langversion:8.0
 
 /deterministic
