@@ -9,6 +9,7 @@ public class HauntableObject : MonoBehaviour
     public bool IsHaunted { get { return isHaunted; } }
     [SerializeField] Animator animator;
     [SerializeField] Aura aura;
+    [SerializeField] AudioSource audioSource;
     public Aura Aura { get { return aura; } }
     PlayerInteraction player = null;
 
@@ -51,6 +52,14 @@ public class HauntableObject : MonoBehaviour
         hauntingInProcess = false;
         animator.SetBool("isHaunted", true);
         HauntObject();
+        if(audioSource != null)
+        {
+            audioSource.Play();
+            if (audioSource.loop)
+            {
+                StartCoroutine(FadeOut());
+            }
+        }
     }
 
     private void HauntObject()
@@ -83,6 +92,21 @@ public class HauntableObject : MonoBehaviour
                 target.StartPanic();
             }
         }
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / 3f;
+
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume;
     }
 
     private bool CheckFacing(Resident target)
@@ -127,6 +151,10 @@ public class HauntableObject : MonoBehaviour
     {
         animator.SetBool("isHaunted", false);
         isHaunted = false;
+        if(audioSource != null)
+        {
+            audioSource.Stop();
+        }
     }
 
     public void LockHaunting()
@@ -139,7 +167,7 @@ public class HauntableObject : MonoBehaviour
 
     private IEnumerator LockCountdown()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         hauntingLocked = false;
         if(player != null)
         {

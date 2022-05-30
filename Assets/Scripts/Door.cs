@@ -10,10 +10,13 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        animator.SetBool("isOpen", true);
-        audio.Play();
-        personPassingThroughDoor = collision.GetComponent<Resident>();
-        personPassingThroughDoor.PauseMovement();
+        if (!animator.GetBool("isOpen")) 
+        { 
+            animator.SetBool("isOpen", true);
+            audio.Play();
+            personPassingThroughDoor = collision.GetComponent<Resident>();
+            personPassingThroughDoor.PauseMovement();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

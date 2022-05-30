@@ -8,6 +8,7 @@ public class Cat : MonoBehaviour
     [SerializeField] protected Waypoint nextWaypoint;
     [SerializeField] protected Vector2 destination;
     [SerializeField] protected float speed;
+    [SerializeField] protected AudioSource audioSource;
 
 
     protected virtual void Start()
@@ -58,5 +59,10 @@ public class Cat : MonoBehaviour
             currentWayponint = nextWaypoint;
             destination = SelectDestiantion();
         }
+    }
+
+    public void Meow()
+    {
+        audioSource.Play();
     }
 }

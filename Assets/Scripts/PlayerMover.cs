@@ -6,6 +6,7 @@ public class PlayerMover : MonoBehaviour
 {
     [SerializeField] PlayerInteraction interaction;
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource audioSource;
     
     float m_Speed = 2f;
     Vector2 posChange;
@@ -60,6 +61,7 @@ public class PlayerMover : MonoBehaviour
 
     public void PullGhost(Vector2 destination)
     {
+        audioSource.Play();
         animator.SetBool("beingHeld", true);
         m_Speed = 0;
         interaction.CanInteract = false;
@@ -69,6 +71,7 @@ public class PlayerMover : MonoBehaviour
 
     private void RestoreControl()
     {
+        audioSource.Stop();
         animator.SetBool("beingHeld", false);
         beingPulled = false;
         m_Speed = 2f;

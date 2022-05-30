@@ -3313,6 +3313,21 @@ PrefabInstance:
       propertyPath: activeMenu
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2822143126866230674, guid: 2388059ebe895df49a3b5d071dca8ec9,
+        type: 3}
+      propertyPath: maxY
+      value: -5.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822143126866230679, guid: 2388059ebe895df49a3b5d071dca8ec9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822143126866230679, guid: 2388059ebe895df49a3b5d071dca8ec9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6
+      objectReference: {fileID: 0}
     - target: {fileID: 7981297730375776765, guid: 2388059ebe895df49a3b5d071dca8ec9,
         type: 3}
       propertyPath: m_RootOrder

@@ -123,6 +123,7 @@ MonoBehaviour:
   isHaunted: 0
   animator: {fileID: 3934021444720428452}
   aura: {fileID: 8576509863191006689}
+  audioSource: {fileID: 0}
 --- !u!61 &2224684412310484341
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -302,7 +303,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5cfd28c00c1e4ea4b871a0c1d8fabea0, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0

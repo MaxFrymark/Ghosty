@@ -58,13 +58,16 @@
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\Resident.cs" />
     <Compile Include="Assets\Scripts\Inputs.cs" />
+    <Compile Include="Assets\Dog.cs" />
     <Compile Include="Assets\Scripts\ResidentTracker.cs" />
     <Compile Include="Assets\Scripts\MenuScreen.cs" />
     <Compile Include="Assets\Scripts\RoomList.cs" />
+    <Compile Include="Assets\Cabinet.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
     <Compile Include="Assets\Cat.cs" />
     <Compile Include="Assets\Scripts\ParanormalInvestigator.cs" />
     <Compile Include="Assets\Scripts\Waypoint.cs" />
+    <Compile Include="Assets\MusicPlayer.cs" />
     <Compile Include="Assets\Scripts\Qmark.cs" />
     <Compile Include="Assets\Scripts\SceneLoader.cs" />
     <Compile Include="Assets\GhostTrap.cs" />
@@ -72,7 +75,6 @@
     <Compile Include="Assets\Tutorial.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\Aura.cs" />
-    <Compile Include="Assets\Dog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -32,10 +32,8 @@ public class ParanormalInvestigator : Resident
         Waypoint waypoint = collision.GetComponent<Waypoint>();
         if(waypoint != null)
         {
-            Debug.Log("hi");
             if (!waypoint.NormalPath)
             {
-                Debug.Log("meow");
                 if (target.transform.position.y > waypoint.transform.position.y || target.transform.position == waypoint.transform.position)
                 {
                     nextWaypoint = waypoint.PreviousWaypoint;

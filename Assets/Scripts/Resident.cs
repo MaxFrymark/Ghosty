@@ -31,7 +31,7 @@ public class Resident : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] sounds;
 
-    [SerializeField] bool hasCat;
+    [SerializeField] Cat cat;
 
 
     private void Start()
@@ -119,7 +119,7 @@ public class Resident : MonoBehaviour
     public void StartPanic()
     {
         currentState = State.Panicked;
-        audioSource.volume = 1;
+        audioSource.volume = .5f;
         audioSource.clip = sounds[1];
         audioSource.Play();
         tracker.RemoveResident(this);
@@ -188,7 +188,7 @@ public class Resident : MonoBehaviour
             PauseMovement();
             investigationTarget.ResetHaunting();
             investigationTarget = null;
-            if (hasCat)
+            if (cat != null)
             {
                 qmark.gameObject.SetActive(false);
                 currentState = State.Normal;
@@ -218,12 +218,13 @@ public class Resident : MonoBehaviour
         }
 
         audioSource.Stop();
-        audioSource.volume = startVolume;
-        if (hasCat)
+
+        if (cat != null)
         {
-            audioSource.clip = sounds[2];
-            audioSource.Play();
+            cat.Meow();
         }
+        audioSource.volume = startVolume;
+
     }
 
 
@@ -236,6 +237,9 @@ public class Resident : MonoBehaviour
 
     public void ReturnToNormalState()
     {
-        currentState = State.Normal;
+        if (currentState != State.Panicked)
+        {
+            currentState = State.Normal;
+        }
     }
 }

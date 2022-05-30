@@ -5,9 +5,9 @@ using UnityEngine;
 public class Dog : Cat
 {
     [SerializeField] Animator animator;
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] Transform rayPoint;
     float walkSpeed = 1.5f;
-    float runSpeed = 4f;
+    float runSpeed = 3.5f;
 
     bool runningTowardsObject = false;
 
@@ -50,7 +50,7 @@ public class Dog : Cat
     {
         haunt = null;
         Vector2 dir = new Vector2(transform.localScale.x, 0);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 10f, hauntableObjectLayer | doorLayer);
+        RaycastHit2D hit = Physics2D.Raycast(rayPoint.position, dir, 10f, hauntableObjectLayer | doorLayer);
         if (hit)
         {
             haunt = hit.collider.GetComponent<HauntableObject>();
@@ -88,15 +88,17 @@ public class Dog : Cat
         haunt.LockHaunting();
         speed = 0f;
         destination = SelectDestiantion();
+        audioSource.Play();
         StartCoroutine(Barking());
     }
 
     private IEnumerator Barking()
     {
         animator.SetBool("isBarking", true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         animator.SetBool("isBarking", false);
         speed = walkSpeed;
         runningTowardsObject = false;
+        audioSource.Stop();
     }
 }
